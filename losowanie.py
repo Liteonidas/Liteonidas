@@ -4,10 +4,16 @@ import time
 
 pg.init()
 window = pg.display.set_mode((800, 600))
+pygame.display.set_caption('Maszyna losująca')
+img = pg.image.load("bartek.jpg")
 
 x = 300
 y = 250
 button = pg.rect.Rect(x, y, 200, 100)
+# IMG_SIZE = (1536, 1536)
+IMG_SIZE = (400, 400)
+
+image = pg.transform.scale(img, IMG_SIZE)
 
 
 def print_text(text: str, osx, osy, font_large):
@@ -16,9 +22,13 @@ def print_text(text: str, osx, osy, font_large):
     window.blit(text_obj, (osx, osy))
 
 
-def refresh():
-    # window.fill((24, 164, 240))
-    pg.display.update()
+def counting_down(counter=5):
+    while counter > 0:
+        window.fill((24, 164, 240))
+        print_text(str(counter), 400, 290, 30)
+        pg.display.update()
+        time.sleep(1)
+        counter -= 1
 
 
 print_flag = False
@@ -36,29 +46,11 @@ while run:
 
     if print_flag:
         if fake_time:
-            print_text("5", 370, 290, 30)
-            pg.display.update()
-            time.sleep(1)
-            window.fill((24, 164, 240))
-            print_text("4", 370, 290, 30)
-            pg.display.update()
-            time.sleep(1)
-            window.fill((24, 164, 240))
-            print_text("3", 370, 290, 30)
-            pg.display.update()
-            time.sleep(1)
-            window.fill((24, 164, 240))
-            print_text("2", 370, 290, 30)
-            pg.display.update()
-            time.sleep(1)
-            window.fill((24, 164, 240))
-            print_text("1", 370, 290, 30)
-            pg.display.update()
-            time.sleep(1)
-
+            counting_down()
             fake_time = False
-        print_text("W losowaniu zwyciężył:", 290, 100, 20)
-        print_text("BARTEK", 295, 160, 50)
+        print_text("W losowaniu zwyciężył:", 290, 30, 20)
+        print_text("BARTEK", 295, 60, 50)
+        window.blit(image, (200, 120))
     else:
         pg.draw.rect(window, (20, 200, 20), button)
         print_text("Losuj", 360, 285, 30)
